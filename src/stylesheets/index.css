@@ -1,0 +1,35 @@
+body {
+  background: #fdfdfd;
+}
+
+.form-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 460px;
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.circle-active {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background: blue;
+  margin: 1em;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.circle-noactive {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background: red;
+  margin: 1em;
+  border-radius: 50%;
+  text-align: center;
+}
