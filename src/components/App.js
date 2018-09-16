@@ -358,7 +358,8 @@ export default class App extends React.Component {
                             <img
                                 className='mb-2'
                                 width="100%"
-                                src={this.state.avatar ? this.state.avatar : avatarDefault}
+                                // src={this.state.avatar ? this.state.avatar : avatarDefault}
+                                src={this.state.avatar === '' ? (avatarDefault) : this.state.avatar}
                             />
                             <div className="input-group mb-2">
                                 <div className="custom-file">
