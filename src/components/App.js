@@ -2,6 +2,8 @@ import React from "react";
 import countries from '../data/countries';
 import cities from '../data/cities';
 import avatarDefault from "../images/default-avatar.png";
+import Basic from "./Steps/Basic";
+import Contacts from "./Steps/Contacts";
 
 export default class App extends React.Component {
     constructor() {
@@ -21,10 +23,10 @@ export default class App extends React.Component {
             avatar:'',
 
             steps: [
-                {name: 'Basic', done: true},
-                {name: 'Contacts', done: false},
-                {name: 'Avatar', done: false},
-                {name: 'Finish', done: false}
+                {name: 'Basic', isDone: true},
+                {name: 'Contacts', isDone: false},
+                {name: 'Avatar', isDone: false},
+                {name: 'Finish', isDone: false}
             ],
 
             errors: {
@@ -42,19 +44,6 @@ export default class App extends React.Component {
     }
 
     goNextStep = () => {
-        // let newArr = [];
-        // let ids=5;
-        //
-        // if (Number(id) === cities[key].country) {for (let key in cities) {
-        //     newArr.push({
-        //         id: key,
-        //         name: cities[key].name
-        //     });
-        // }}
-        //
-        //   let filterArr=newArr.filter(needCountry => needCountry.country===ids);
-        //   console.log(newArr);
-
         const errors = {};
 
         switch(this.state.activeStep) {
@@ -98,7 +87,7 @@ export default class App extends React.Component {
         } else {
             if (this.state.activeStep < 4) {
                 let arrSteps = [...this.state.steps];
-                arrSteps[this.state.activeStep-1].done = true;
+                arrSteps[this.state.activeStep-1].isDone = true;
 
                 this.setState({
                     activeStep: this.state.activeStep + 1,
@@ -112,7 +101,7 @@ export default class App extends React.Component {
     goPrevStep= () => {
         if (this.state.activeStep > 1) {
             let arrSteps = [...this.state.steps];
-            arrSteps[this.state.activeStep-2].done = false;
+            arrSteps[this.state.activeStep-2].isDone = false;
 
             this.setState({
                 activeStep: this.state.activeStep - 1,
@@ -168,6 +157,8 @@ export default class App extends React.Component {
     };
 
     render() {
+        const {firstname, lastname, password, repeatPassword, gender, email, mobile, country, city, errors} = this.state;
+
         return (
             <div className="form-container card">
                 <div className='container d-flex justify-content-center'>
@@ -194,7 +185,7 @@ export default class App extends React.Component {
                         {/*</div>*/}
                         {this.state.steps.map((step, index) => (
                             <div key={step.name} className={
-                                step.done === true ? ('circle-noactive') : 'circle-active'}
+                                step.isDone === true ? ('circle-noactive') : 'circle-active'}
                             >
                                 {index + 1}
                             </div>
@@ -203,155 +194,28 @@ export default class App extends React.Component {
                 </div>
                 <form className="form card-body">
                     {this.state.activeStep === 1 ? (
-                        <div>
-                            <div className='form-group'>
-                                <label>Firstname</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter firstname"
-                                    name='firstname'
-                                    value={this.state.firstname}
-                                    onChange={this.onChange}
-                                />
-                                {this.state.errors.firstname ? (
-                                    <div className='invalid-feedback'>{this.state.errors.firstname}</div>
-                                ) : null}
-                            </div>
-                            <div className='form-group'>
-                                <label>Lastname</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter lastname"
-                                    name='lastname'
-                                    value={this.state.lastname}
-                                    onChange={this.onChange}
-                                />
-                                {this.state.errors.lastname ? (
-                                    <div className='invalid-feedback'>{this.state.errors.lastname}</div>
-                                ) : null}
-                            </div>
-                            <div className='form-group'>
-                                <label>Password</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="Enter password"
-                                    name='password'
-                                    value={this.state.password}
-                                    onChange={this.onChange}
-                                />
-                                {this.state.errors.password ? (
-                                    <div className='invalid-feedback'>{this.state.errors.password}</div>
-                                ) : null}
-                            </div>
-                            <div className='form-group'>
-                                <label>Repeat password</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="Enter repeat password"
-                                    name='repeatPassword'
-                                    value={this.state.repeatPassword}
-                                    onChange={this.onChange}
-                                />
-                                {this.state.errors.repeatPassword ? (
-                                    <div className='invalid-feedback'>{this.state.errors.repeatPassword}</div>
-                                ) : null}
-                            </div>
-                            <fieldset className='form-group'>
-                                <div>Gender</div>
-                                <div className='form-check'>
-                                    <input
-                                        className='form-check-input'
-                                        type='radio'
-                                        id='male'
-                                        name='gender'
-                                        value='male'
-                                        checked={this.state.gender === 'male'}
-                                        onChange={this.onChange}
-                                    />
-                                    <label className='form-check-label' htmlFor='male'>
-                                        Male
-                                    </label>
-                                </div>
-                                <div className='form-check'>
-                                    <input
-                                        className='form-check-input'
-                                        type='radio'
-                                        id='female'
-                                        name='gender'
-                                        value='female'
-                                        checked={this.state.gender === 'female'}
-                                        onChange={this.onChange}
-                                    />
-                                    <label className='form-check-label' htmlFor='female'>
-                                        Female
-                                    </label>
-                                </div>
-                            </fieldset>
-                        </div>
+                            <Basic
+                                firstname={firstname}
+                                lastname={lastname}
+                                password={password}
+                                repeatPassword={repeatPassword}
+                                gender={gender}
+                                errors={errors}
+                                onChange={this.onChange}
+                            />
                     ) : null}
 
                     {this.state.activeStep === 2 ? (
-                        <div>
-                            <div className='form-group'>
-                                <label>Email</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter email"
-                                    name='email'
-                                    value={this.state.email}
-                                    onChange={this.onChange}
-                                />
-                                {this.state.errors.email ? (
-                                    <div className='invalid-feedback'>{this.state.errors.email}</div>
-                                ) : null}
-                            </div>
-                            <div className='form-group'>
-                                <label>Mobile</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter mobile"
-                                    name='mobile'
-                                    value={this.state.mobile}
-                                    onChange={this.onChange}
-                                />
-                                {this.state.errors.mobile ? (
-                                    <div className='invalid-feedback'>{this.state.errors.mobile}</div>
-                                ) : null}
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="country">Country</label>
-                                <select
-                                    className="form-control"
-                                    id="country"
-                                    name='country'
-                                    value={this.state.country}
-                                    onChange={this.onChange}
-                                >
-                                    {this.getOptionsItem(countries)}
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="city">City</label>
-                                <select
-                                    className="form-control"
-                                    id="city"
-                                    name='city'
-                                    value={this.state.city}
-                                    onChange={this.onChange}
-                                >
-                                    {this.getOptionsItem(this.getCityList(this.state.country))}
-                                </select>
-                                {this.state.errors.city ? (
-                                    <div className='invalid-feedback'>{this.state.errors.city}</div>
-                                ) : null}
-                            </div>
-                        </div>
+                            <Contacts
+                                email={email}
+                                mobile={mobile}
+                                country={country}
+                                city={city}
+                                errors={errors}
+                                onChange={this.onChange}
+                                getOptionsItem={this.getOptionsItem}
+                                getCityList={this.getCityList}
+                            />
                     ) : null}
                     {this.state.activeStep === 3 ? (
                         <div>
