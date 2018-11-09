@@ -184,8 +184,8 @@ export default class App extends React.Component {
                             {/*4*/}
                         {/*</div>*/}
                         {this.state.steps.map((step, index) => (
-                            <div key={step.name} className={
-                                step.isDone === true ? ('circle-noactive') : 'circle-active'}
+                            <div key={step.name} className=
+                                {step.isDone === true ? ('circle-noactive') : 'circle-active'}
                             >
                                 {index + 1}
                             </div>
