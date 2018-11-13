@@ -1,9 +1,10 @@
 import React from "react";
 import countries from '../data/countries';
 import cities from '../data/cities';
-import avatarDefault from "../images/default-avatar.png";
+// import avatarDefault from "../images/default-avatar.png";
 import Basic from "./Steps/Basic";
 import Contacts from "./Steps/Contacts";
+import Avatar from "./Steps/Avatar";
 
 export default class App extends React.Component {
     constructor() {
@@ -149,7 +150,7 @@ export default class App extends React.Component {
     };
 
     render() {
-        const {firstname, lastname, password, repeatPassword, gender, email, mobile, country, city, errors} = this.state;
+        const {firstname, lastname, password, repeatPassword, gender, email, mobile, country, city, errors, avatar} = this.state;
 
         return (
             <div className="form-container card">
@@ -190,29 +191,11 @@ export default class App extends React.Component {
                             />
                     ) : null}
                     {this.state.activeStep === 3 ? (
-                        <div>
-                            <img
-                                className='mb-2'
-                                width="100%"
-                                src={this.state.avatar === '' ? (avatarDefault) : this.state.avatar}
-                            />
-                            <div className="input-group mb-2">
-                                <div className="custom-file">
-                                    <input
-                                        type="file"
-                                        className="custom-file-input"
-                                        id="avatar"
-                                        name='avatar'
-                                        // value={this.state.avatar}
-                                        onChange={this.onChangeAvatar}
-                                    />
-                                    <label className="custom-file-label" htmlFor="avatar">Choose avatar</label>
-                                </div>
-                                {this.state.errors.avatar ? (
-                                    <div className='invalid-feedback'>{this.state.errors.avatar}</div>
-                                ) : null}
-                            </div>
-                        </div>
+                        <Avatar
+                            avatar={avatar}
+                            onChangeAvatar={this.onChangeAvatar}
+                            errors={errors}
+                        />
                     ) : null}
                     {this.state.activeStep === 4 ? (
                         <div>
