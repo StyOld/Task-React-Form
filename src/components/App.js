@@ -113,14 +113,8 @@ export default class App extends React.Component {
     onChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
-        })
+        });
     };
-
-    // onChangeEmail = (event) => {
-    //     this.setState({
-    //         email: event.target.value
-    //     })
-    // };
 
     getOptionsItem = items => {
         return items.map(item => (
@@ -149,8 +143,6 @@ export default class App extends React.Component {
         reader.onload = event => {
             this.setState({
                 avatar: event.target.result
-                // name: "avatar",
-                // value: event.target.result
             })
         };
         reader.readAsDataURL(event.target.files[0])
@@ -163,26 +155,6 @@ export default class App extends React.Component {
             <div className="form-container card">
                 <div className='container d-flex justify-content-center'>
                     <div className='row mt-4'>
-                        {/*<div className={*/}
-                            {/*this.state.steps[0].done === true ? ('circle-noactive') : 'circle-active'}*/}
-                        {/*>*/}
-                            {/*1*/}
-                        {/*</div>*/}
-                        {/*<div className={*/}
-                            {/*this.state.steps[1].done === true ? ('circle-noactive') : 'circle-active'}*/}
-                        {/*>*/}
-                            {/*2*/}
-                        {/*</div>*/}
-                        {/*<div className={*/}
-                            {/*this.state.steps[2].done === true ? ('circle-noactive') : 'circle-active'}*/}
-                        {/*>*/}
-                            {/*3*/}
-                        {/*</div>*/}
-                        {/*<div className={*/}
-                            {/*this.state.steps[3].done ? ('circle-noactive') : 'circle-active'}*/}
-                        {/*>*/}
-                            {/*4*/}
-                        {/*</div>*/}
                         {this.state.steps.map((step, index) => (
                             <div key={step.name} className=
                                 {step.isDone === true ? ('circle-noactive') : 'circle-active'}
@@ -222,7 +194,6 @@ export default class App extends React.Component {
                             <img
                                 className='mb-2'
                                 width="100%"
-                                // src={this.state.avatar ? this.state.avatar : avatarDefault}
                                 src={this.state.avatar === '' ? (avatarDefault) : this.state.avatar}
                             />
                             <div className="input-group mb-2">
