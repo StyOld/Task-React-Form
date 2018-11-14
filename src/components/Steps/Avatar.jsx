@@ -10,6 +10,7 @@ export default class Avatar extends React.Component {
                     className='mb-2'
                     width="100%"
                     src={avatar === '' ? (avatarDefault) : avatar}
+                    alt=""
                 />
                 <div className="input-group mb-2">
                     <div className="custom-file">

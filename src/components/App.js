@@ -1,10 +1,10 @@
 import React from "react";
-import countries from '../data/countries';
 import cities from '../data/cities';
-// import avatarDefault from "../images/default-avatar.png";
 import Basic from "./Steps/Basic";
 import Contacts from "./Steps/Contacts";
 import Avatar from "./Steps/Avatar";
+import Finish from "./Steps/Finish";
+import NavigationButtons from "./NavigationButtons";
 
 export default class App extends React.Component {
     constructor() {
@@ -64,7 +64,7 @@ export default class App extends React.Component {
                 break;
 
             case 2:
-                if (/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(this.state.email) === false) {
+                if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(this.state.email) === false) {
                     errors.email = 'Invalid email address'
                 };
                 if (/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/i.test(this.state.mobile) === false) {
@@ -95,7 +95,7 @@ export default class App extends React.Component {
                     steps: arrSteps,
                     errors: {}
                 })
-            };
+            }
         }
     };
 
@@ -150,107 +150,75 @@ export default class App extends React.Component {
     };
 
     render() {
-        const {firstname, lastname, password, repeatPassword, gender, email, mobile, country, city, errors, avatar} = this.state;
+        const {firstname, lastname, password, repeatPassword, gender, email, mobile, country, city, errors, avatar, activeStep} = this.state;
 
         return (
             <div className="form-container card">
-                <div className='container d-flex justify-content-center'>
-                    <div className='row mt-4'>
+                <div>
+                    <h6><strong><div className='row container d-flex justify-content-center'>
                         {this.state.steps.map((step, index) => (
-                            <div key={step.name} className=
-                                {step.isDone === true ? ('circle-noactive') : 'circle-active'}
-                            >
-                                {index + 1}
+                            <div key={step.name} >
+                                <div className={step.isDone === true ? ('circle-noactive') : 'circle-active'}>
+                                    {index + 1}
+                                </div>
+                                <div className='d-flex justify-content-center'>
+                                    {step.name}
+                                </div>
                             </div>
                         ))}
-                    </div>
+                    </div></strong></h6>
                 </div>
                 <form className="form card-body">
                     {this.state.activeStep === 1 ? (
-                            <Basic
-                                firstname={firstname}
-                                lastname={lastname}
-                                password={password}
-                                repeatPassword={repeatPassword}
-                                gender={gender}
-                                errors={errors}
-                                onChange={this.onChange}
-                            />
+                        <Basic
+                            firstname={firstname}
+                            lastname={lastname}
+                            password={password}
+                            repeatPassword={repeatPassword}
+                            gender={gender}
+                            errors={errors}
+                            onChange={this.onChange}
+                        />
                     ) : null}
 
                     {this.state.activeStep === 2 ? (
-                            <Contacts
-                                email={email}
-                                mobile={mobile}
-                                country={country}
-                                city={city}
-                                errors={errors}
-                                onChange={this.onChange}
-                                getOptionsItem={this.getOptionsItem}
-                                getCityList={this.getCityList}
-                            />
+                        <Contacts
+                            email={email}
+                            mobile={mobile}
+                            country={country}
+                            city={city}
+                            errors={errors}
+                            onChange={this.onChange}
+                            getOptionsItem={this.getOptionsItem}
+                            getCityList={this.getCityList}
+                        />
                     ) : null}
+
                     {this.state.activeStep === 3 ? (
                         <Avatar
                             avatar={avatar}
-                            onChangeAvatar={this.onChangeAvatar}
                             errors={errors}
+                            onChangeAvatar={this.onChangeAvatar}
                         />
                     ) : null}
-                    {this.state.activeStep === 4 ? (
-                        <div>
-                            <div className='container'>
-                                <div className='row mb-2'>
-                                    <div className='col-4'>
-                                        <img
-                                            width="100%"
-                                            src={this.state.avatar}
-                                        />
-                                    </div>
-                                    <div className='col-8 d-flex align-items-center'>
-                                        <h4>{this.state.firstname} {this.state.lastname}</h4>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div className='mb-2'><strong>Email: </strong>{this.state.email}</div>
-                            <div className='mb-2'><strong>Mobile: </strong>{this.state.mobile}</div>
-                            <div className='mb-2'>
-                                <strong>Location: </strong>
-                                {countries.find(object => object.id === Number(this.state.country)).name},
-                                {cities[this.state.city].name}
-                            </div>
-                        </div>
+                    {this.state.activeStep === 4 ? (
+                        <Finish
+                            firstname={firstname}
+                            lastname={lastname}
+                            avatar={avatar}
+                            email={email}
+                            mobile={mobile}
+                            country={country}
+                            city={city}
+                        />
                     ) : null}
-                    {this.state.activeStep < 4 ? (
-                            <div className="d-flex justify-content-center">
-                                <button
-                                    type='button'
-                                    className='btn btn-light mr-2'
-                                    onClick={this.goPrevStep}
-                                >
-                                    Previous
-                                </button>
-                                <button
-                                    type='button'
-                                    className='btn btn-dark'
-                                    onClick={this.goNextStep}
-                                >
-                                    Next
-                                </button>
-                            </div>
-                        ) :
-                        <div className="d-flex justify-content-center">
-                            <button
-                                type='button'
-                                className='btn btn-dark'
-                                onClick={() => {
-                                    window.location.reload();
-                                }}
-                            >
-                                Reset
-                            </button>
-                        </div>}
+
+                        <NavigationButtons
+                            activeStep={activeStep}
+                            goPrevStep={this.goPrevStep}
+                            goNextStep={this.goNextStep}
+                        />
                 </form>
             </div>
         );
